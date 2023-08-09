@@ -5,11 +5,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended.Gui.Controls;
 using MonoGame.Extended.Gui.Serialization;
+using MonoGame.Extended.Screens.Transitions;
 using Newtonsoft.Json;
 
 namespace MonoGame.Extended.Gui
 {
-    public class Screen //: Element<GuiSystem>, IDisposable
+    public class Screen : IDisposable //: Element<GuiSystem>, IDisposable
     {
         public Screen()
         {
@@ -18,6 +19,7 @@ namespace MonoGame.Extended.Gui
 
         public virtual void Dispose()
         {
+
         }
 
         private Control _content;

@@ -5,6 +5,7 @@ using MonoGame.Extended.Input.InputListeners;
 using MonoGame.Extended.ViewportAdapters;
 using System;
 using System.Linq;
+using MonoGame.Extended.Screens.Transitions;
 
 namespace MonoGame.Extended.Gui
 {
@@ -26,6 +27,8 @@ namespace MonoGame.Extended.Gui
         private readonly KeyboardListener _keyboardListener;
 
         private Control _preFocusedControl;
+
+        private Transition _activeTransition;
 
         public GuiSystem(ViewportAdapter viewportAdapter, IGuiRenderer renderer)
         {
@@ -102,6 +105,7 @@ namespace MonoGame.Extended.Gui
             //    ActiveScreen.Layout(this, BoundingRectangle);
 
             ActiveScreen.Update(gameTime);
+            _activeTransition?.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime)
@@ -121,7 +125,32 @@ namespace MonoGame.Extended.Gui
             if (cursor != null)
                 _renderer.DrawRegion(cursor.TextureRegion, CursorPosition, cursor.Color);
 
+            _activeTransition?.Draw(gameTime);
+
             _renderer.End();
+        }
+
+        public void LoadScreen(Screen screen, Transition transition)
+        {
+            if (_activeTransition != null)
+            {
+                return;
+            }
+
+            _activeTransition = transition;
+            _activeTransition.StateChanged += (sender, args) => LoadScreen(screen);
+            _activeTransition.Completed += (sender, args) =>
+            {
+                _activeTransition.Dispose();
+                _activeTransition = null;
+            };
+        }
+
+        public void LoadScreen(Screen screen)
+        {
+            _activeScreen?.Dispose();
+
+            _activeScreen = screen;
         }
 
         //private void DrawWindows(WindowCollection windows, float deltaSeconds)
