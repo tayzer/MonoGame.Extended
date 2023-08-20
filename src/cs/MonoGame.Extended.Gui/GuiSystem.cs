@@ -64,8 +64,10 @@ namespace MonoGame.Extended.Gui
                 {
                     _activeScreen = value;
 
-                    if(_activeScreen != null)
+                    if (_activeScreen != null)
+                    {
                         InitializeScreen(_activeScreen);
+                    }
                 }
             }
         }
@@ -148,9 +150,9 @@ namespace MonoGame.Extended.Gui
 
         public void LoadScreen(Screen screen)
         {
-            _activeScreen?.Dispose();
+            ActiveScreen?.Dispose();
 
-            _activeScreen = screen;
+            ActiveScreen = screen;
         }
 
         //private void DrawWindows(WindowCollection windows, float deltaSeconds)
