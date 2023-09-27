@@ -100,8 +100,10 @@ namespace MonoGame.Extended.Gui
 
             var deltaSeconds = gameTime.GetElapsedSeconds();
 
-            if (ActiveScreen != null && ActiveScreen.IsVisible)
+            if (ActiveScreen is { IsVisible: true })
+            {
                 UpdateControl(ActiveScreen.Content, deltaSeconds);
+            }
 
             //if (ActiveScreen.IsLayoutRequired)
             //    ActiveScreen.Layout(this, BoundingRectangle);
